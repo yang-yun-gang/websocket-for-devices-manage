@@ -18,8 +18,8 @@ public class CommonDefine {
         // pong
         public static final String PONG = "pong";
 
-        // schedule
-        public static final String SCHEDULE = "schedule";
+        // publish
+        public static final String PUBLISH = "publish";
     }
 
     public static class Heartbeat {
@@ -27,11 +27,13 @@ public class CommonDefine {
         public static final long TIME = 30000;
     }
 
-    public static class KafkaTopics{
+    public static class KafkaParams{
 
-        public static final String TOPIC_SCHEDULE = "topic.schedule";
+        public static final String TOPIC_PUBLISH = "topic.publish";
 
         public static final String TOPIC_DEVICE_OFFLINE = "topic.device.offline";
+
+        public static final String GROUP_DEFAULT = "group.default";
     }
 
 }

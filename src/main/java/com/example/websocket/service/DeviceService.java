@@ -1,6 +1,7 @@
 package com.example.websocket.service;
 
 import com.example.websocket.entity.DeviceInfo;
+import com.example.websocket.entity.PublishMsg;
 
 import java.util.List;
 
@@ -54,15 +55,14 @@ public interface DeviceService {
     void heartbeatUpdate(String deviceId);
 
     /**
-      * @Description: 发送日程
+      * @Description: 发送消息
       * @Author: young
-      * @Date: 2022-07-26 21:37
-      * @Param deviceIds:
-      * @Param scheduleId:
+      * @Date: 2023-05-08 17:29
+      * @Param msg:
       * @return: void
       * @Version: 1.0
       **/
-    void sendSchedule(String[] deviceIds, String scheduleId);
+    void publish(PublishMsg msg);
 
     /**
       * @Description: 设备离线处理

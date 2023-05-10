@@ -28,7 +28,7 @@ public class KafkaProducer {
         String obj2String = JSON.toJSONString(obj);
         log.info("准备发送消息为：{}", obj2String);
         //发送消息
-        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topic, obj);
+        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topic, obj2String);
         future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
             @Override
             public void onFailure(Throwable throwable) {

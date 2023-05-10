@@ -15,6 +15,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -109,12 +110,12 @@ public class WebSocketServer {
     }
 
     // 发送日程
-    public static void sendSchedule(String scheduleId, String[] deviceIds){
+    public static void sendSchedule(String content, List<String> deviceIds){
         for (String deviceId : deviceIds) {
             if (map.containsKey(deviceId)) {
                 // todo 有没有可能进入的时候该设备下线了
                 WebSocketServer webSocketServer = map.get(deviceId);
-                Response response = new Response(CommonDefine.Type.SCHEDULE, scheduleId);
+                Response response = new Response(CommonDefine.Type.PUBLISH, content);
                 String responseString = JSON.toJSONString(response);
                 try {
                     webSocketServer.sendMsg(responseString);
@@ -122,7 +123,7 @@ public class WebSocketServer {
                     e.printStackTrace();
                 }
             } else {
-                log.error("设备{}不在线，无法发送消息", deviceId);
+                log.info("设备{}不在线，无法发送消息", deviceId);
             }
         }
     }

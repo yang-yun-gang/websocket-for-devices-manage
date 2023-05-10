@@ -2,6 +2,7 @@ package com.example.websocket.service.impl;
 
 import com.example.websocket.common.CommonDefine;
 import com.example.websocket.entity.DeviceInfo;
+import com.example.websocket.entity.PublishMsg;
 import com.example.websocket.kafka.KafkaProducer;
 import com.example.websocket.service.DeviceService;
 import com.example.websocket.thread.CheckHeartBeatTask;
@@ -76,8 +77,15 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public void sendSchedule(String[] deviceIds, String scheduleId) {
-        WebSocketServer.sendSchedule(scheduleId, deviceIds);
+    public void publish(PublishMsg msg) {
+        if (Objects.nonNull(msg)) {
+            if (Objects.isNull(msg.getContent()) || Objects.isNull(msg.getTitle()) || Objects.isNull(msg.getDeviceIds())) {
+                return;
+            }
+            List<String> deviceIds = msg.getDeviceIds();
+            String content = msg.getContent();
+            WebSocketServer.sendSchedule(content, deviceIds);
+        }
     }
 
     @Override
@@ -85,7 +93,7 @@ public class DeviceServiceImpl implements DeviceService {
         DeviceInfo device = deviceInfoMap.remove(deviceId);
         // 通过kafka 通知平台设备离线
         if (Objects.nonNull(device)) {
-            kafkaProducer.send(CommonDefine.KafkaTopics.TOPIC_DEVICE_OFFLINE, device.getDeviceId());
+            kafkaProducer.send(CommonDefine.KafkaParams.TOPIC_DEVICE_OFFLINE, device.getDeviceId());
         }
         WebSocketServer.closeConn(deviceId);
     }
